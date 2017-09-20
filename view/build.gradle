@@ -31,4 +31,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile project(':model')
     compile project(':viewmodel')
+    compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'
 }
