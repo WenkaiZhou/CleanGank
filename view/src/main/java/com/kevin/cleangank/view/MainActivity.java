@@ -30,13 +30,13 @@ public class MainActivity extends AppCompatActivity {
                 HttpBuilder.getRestService().getPrettyGirl(10, 1),
                 new Consumer<PrettyGirl>() {
                     @Override
-                    public void accept(PrettyGirl prettyGirl) throws Exception {
+                    public void accept(PrettyGirl prettyGirl) {
                         Timber.tag("aa").d(prettyGirl.list.get(0).toString());
                     }
                 },
                 new Consumer<Throwable>() {
                     @Override
-                    public void accept(Throwable throwable) throws Exception {
+                    public void accept(Throwable throwable) {
                         Timber.tag("aa").d(throwable.toString());
                         Log.d(TAG, "accept() called with: throwable = [" + throwable + "]");
                     }
