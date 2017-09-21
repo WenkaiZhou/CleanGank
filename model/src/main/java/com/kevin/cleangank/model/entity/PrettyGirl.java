@@ -15,8 +15,7 @@
  */
 package com.kevin.cleangank.model.entity;
 
-import com.bluelinelabs.logansquare.annotation.JsonField;
-import com.bluelinelabs.logansquare.annotation.JsonObject;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * PrettyGirl
@@ -28,7 +27,6 @@ import com.bluelinelabs.logansquare.annotation.JsonObject;
  * @author mender，Modified Date Modify Content:
  */
 
-@JsonObject(fieldDetectionPolicy = JsonObject.FieldDetectionPolicy.NONPRIVATE_FIELDS)
 public class PrettyGirl {
 
     /*
@@ -42,7 +40,7 @@ public class PrettyGirl {
      * "used": true,
      * "who": "带马甲"
      */
-    @JsonField(name = "_id")
+    @SerializedName("_id")
     public String id = "";
     public String createdAt = "";
     public String desc = "";

@@ -20,15 +20,13 @@ import android.support.annotation.NonNull;
 import com.kevin.cleangank.model.entity.HttpResult;
 import com.kevin.cleangank.model.util.RxSchedulers;
 
-import java.util.List;
-
 import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * ResponseTransform
@@ -42,26 +40,38 @@ import io.reactivex.schedulers.Schedulers;
 
 public class HttpHelper {
 
-    public static <T> Disposable request(
+    public static <T> Observable<T> request(
             @NonNull final CompositeDisposable subscriptions,
-            @NonNull final Observable<HttpResult<T>> observable,
-            @NonNull final Consumer<List<T>> success,
-            @NonNull final Consumer<Throwable> error) {
+            @NonNull final Observable<HttpResult<T>> observable) {
+        return Observable.create(new ObservableOnSubscribe<T>() {
+            @Override
+            public void subscribe(@NonNull final ObservableEmitter<T> e) throws Exception {
+                Disposable disposable = observable
+                        .map(ResponseTransform.getInstance())
+                        .compose(RxSchedulers.io2main())
+                        .subscribe(
+                                new Consumer<T>() {
 
-        Disposable disposable = observable
-                .map(ResponseTransform.getInstance())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(success, new ApiException<>(error)
-                        , new Action() {
-                            @Override
-                            public void run() throws Exception {
+                                    @Override
+                                    public void accept(T t) throws Exception {
+                                        e.onNext(t);
+                                        e.onComplete();
+                                    }
+                                },
+                                new ApiException(e),
+                                new Action() {
 
-                            }
-                        });
-        subscriptions.add(disposable);
-        return disposable;
+                                    @Override
+                                    public void run() throws Exception {
+
+                                    }
+                                });
+                subscriptions.add(disposable);
+            }
+        });
     }
 
-
+    public static APIService api() {
+        return HttpBuilder.getRestService();
+    }
 }

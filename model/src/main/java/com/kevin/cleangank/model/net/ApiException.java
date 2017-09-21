@@ -19,6 +19,7 @@ import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
+import io.reactivex.ObservableEmitter;
 import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
@@ -32,40 +33,39 @@ import timber.log.Timber;
  * @author mender，Modified Date Modify Content:
  */
 
-final class ApiException<T extends Throwable> implements Consumer<T> {
+final class ApiException implements Consumer<Throwable> {
 
     private static final String TAG = "ApiException";
 
     private static final String SOCKET_TIME_OUT_EXCEPTION = "网络连接超时，请检查您的网络状态，稍后重试";
     private static final String CONNECT_EXCEPTION = "网络连接异常，请检查您的网络状态";
     private static final String UNKNOWN_HOST_EXCEPTION = "网络异常，请检查您的网络状态";
+    private final ObservableEmitter emitter;
 
-    private Consumer<? super Throwable> onError;
-
-    public ApiException(Consumer<? super Throwable> onError) {
-        this.onError = onError;
+    public ApiException(ObservableEmitter emitter) {
+        this.emitter = emitter;
     }
 
     /**
      * Consume the given value.
      *
-     * @param t the value
+     * @param throwable the value
      * @throws Exception on error
      */
     @Override
-    public void accept(T t) throws Exception {
-        if (t instanceof SocketTimeoutException) {
+    public void accept(Throwable throwable) throws Exception {
+        if (throwable instanceof SocketTimeoutException) {
             Timber.tag(TAG).e("onError: SocketTimeoutException " + SOCKET_TIME_OUT_EXCEPTION);
-            onError.accept(new Throwable(SOCKET_TIME_OUT_EXCEPTION));
-        } else if (t instanceof ConnectException) {
+            emitter.onError(new Throwable(SOCKET_TIME_OUT_EXCEPTION));
+        } else if (throwable instanceof ConnectException) {
             Timber.tag(TAG).e(TAG, "onError: ConnectException " + CONNECT_EXCEPTION);
-            onError.accept(new Throwable(CONNECT_EXCEPTION));
-        } else if (t instanceof UnknownHostException) {
+            emitter.onError(new Throwable(CONNECT_EXCEPTION));
+        } else if (throwable instanceof UnknownHostException) {
             Timber.tag(TAG).e(TAG, "onError: UnknownHostException " + UNKNOWN_HOST_EXCEPTION);
-            onError.accept(new Throwable(UNKNOWN_HOST_EXCEPTION));
+            emitter.onError(new Throwable(UNKNOWN_HOST_EXCEPTION));
         } else {
-            Timber.tag(TAG).e(TAG, "onError: " + t.getMessage());
-            onError.accept(t);
+            Timber.tag(TAG).e(TAG, "onError: " + throwable.getMessage());
+            emitter.onError(throwable);
         }
     }
 }

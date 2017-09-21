@@ -15,18 +15,18 @@
  */
 package com.kevin.cleangank.model.net;
 
-import com.github.aurae.retrofit2.LoganSquareConverterFactory;
-
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import com.kevin.cleangank.model.app.CleanGank;
 import com.kevin.cleangank.model.app.ConfigKeys;
+
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 import timber.log.Timber;
 
 /**
@@ -84,7 +84,7 @@ public class HttpBuilder {
         private static final Retrofit RETROFIT_CLIENT = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(OKHttpHolder.OK_HTTP_CLIENT)
-                .addConverterFactory(LoganSquareConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
     }
@@ -96,7 +96,7 @@ public class HttpBuilder {
         private static final APIService REST_SERVICE = RetrofitHolder.RETROFIT_CLIENT.create(APIService.class);
     }
 
-    public static APIService getRestService() {
+    static APIService getRestService() {
         return APIServiceHolder.REST_SERVICE;
     }
 

@@ -15,10 +15,7 @@
  */
 package com.kevin.cleangank.model.entity;
 
-import com.bluelinelabs.logansquare.annotation.JsonField;
-import com.bluelinelabs.logansquare.annotation.JsonObject;
-
-import java.util.List;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * HttpResult
@@ -30,9 +27,8 @@ import java.util.List;
  * @author mender，Modified Date Modify Content:
  */
 
-@JsonObject(fieldDetectionPolicy = JsonObject.FieldDetectionPolicy.NONPRIVATE_FIELDS)
 public class HttpResult<T> {
     public boolean error;
-    @JsonField(name = "results")
-    public List<T> data;
+    @SerializedName("results")
+    public T data;
 }

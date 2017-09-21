@@ -16,20 +16,13 @@
 package com.kevin.cleangank.model.data;
 
 import com.kevin.cleangank.model.entity.PrettyGirl;
-import com.kevin.cleangank.model.net.HttpBuilder;
-import com.kevin.cleangank.model.net.ResponseTransform;
-import com.kevin.cleangank.model.util.RxSchedulers;
+import com.kevin.cleangank.model.entity.RestVideo;
+import com.kevin.cleangank.model.net.HttpHelper;
 
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import timber.log.Timber;
 
 /**
  * DataRepository
@@ -43,42 +36,31 @@ import timber.log.Timber;
 
 public class DataRepository {
 
-    private static final String TAG = "DataRepository";
-    static final Object TRIGGER = new Object();
-
     private CompositeDisposable mSubscriptions;
 
     public DataRepository(CompositeDisposable subscriptions) {
         this.mSubscriptions = subscriptions;
     }
 
+    /**
+     * 获取福利数据列表
+     *
+     * @param pageSize
+     * @param page
+     * @return
+     */
     public Observable<List<PrettyGirl>> getPrettyGirlList(final int pageSize, final int page) {
-//        return Observable.just(TRIGGER).compose(ensure(HttpBuilder.getRestService().getPrettyGirl(pageSize, page)));
-
-        return Observable.create(new ObservableOnSubscribe<List<PrettyGirl>>() {
-            @Override
-            public void subscribe(@NonNull final ObservableEmitter<List<PrettyGirl>> e) throws Exception {
-                Disposable disposable = HttpBuilder.getRestService().getPrettyGirl(pageSize, page)
-                        .map(ResponseTransform.getInstance())
-                        .compose(RxSchedulers.io2main())
-                        .subscribe(
-                                new Consumer<List<PrettyGirl>>() {
-                                    @Override
-                                    public void accept(List<PrettyGirl> prettyGirls) throws Exception {
-                                        e.onNext(prettyGirls);
-                                        e.onComplete();
-                                    }
-                                }, new Consumer<Throwable>() {
-                                    @Override
-                                    public void accept(Throwable throwable) throws Exception {
-                                        e.onError(throwable);
-                                    }
-                                });
-                mSubscriptions.add(disposable);
-            }
-        });
-
+        return HttpHelper.request(mSubscriptions, HttpHelper.api().getPrettyGirl(pageSize, page));
     }
 
-
+    /**
+     * 获取休息视频数据列表
+     *
+     * @param pageSize
+     * @param page
+     * @return
+     */
+    public Observable<List<RestVideo>> getRestVideoList(final int pageSize, final int page) {
+        return HttpHelper.request(mSubscriptions, HttpHelper.api().getRestVideo(pageSize, page));
+    }
 }

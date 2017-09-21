@@ -19,6 +19,8 @@ import com.kevin.cleangank.model.entity.HttpResult;
 import com.kevin.cleangank.model.entity.PrettyGirl;
 import com.kevin.cleangank.model.entity.RestVideo;
 
+import java.util.List;
+
 import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -37,13 +39,13 @@ public interface APIService {
 
     // http://gank.io/api/data/福利/10/1
     @GET("/api/data/福利/{pageSize}/{page}")
-    Observable<HttpResult<PrettyGirl>> getPrettyGirl(
+    Observable<HttpResult<List<PrettyGirl>>> getPrettyGirl(
             @Path("pageSize") int pageSize,
             @Path("page") int page);
 
     // http://gank.io/api/data/休息视频/10/1
     @GET("/api/data/休息视频/{pageSize}/{page}")
-    Observable<HttpResult<RestVideo>> getRestVideo(
+    Observable<HttpResult<List<RestVideo>>> getRestVideo(
             @Path("pageSize") int pageSize,
             @Path("page") int page);
 

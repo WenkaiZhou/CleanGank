@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.kevin.cleangank.model.data.DataRepository;
-import com.kevin.cleangank.model.entity.PrettyGirl;
+import com.kevin.cleangank.model.entity.RestVideo;
 
 import java.util.List;
 
@@ -27,39 +27,32 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
     public void click(View view) {
-        dataRepository.getPrettyGirlList(10, 1).subscribe(new Consumer<List<PrettyGirl>>() {
-            @Override
-            public void accept(List<PrettyGirl> prettyGirls) throws Exception {
-                Timber.tag("fUCKKKK").d(prettyGirls.get(0).who);
-            }
-        }, new Consumer<Throwable>() {
-            @Override
-            public void accept(Throwable throwable) throws Exception {
-                Timber.tag(TAG).e("出错了");
-                Timber.tag(TAG).e(throwable);
-            }
-        });
-
-//        new RxPermissions(MainActivity.this).request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-//                .subscribe(new Consumer<Boolean>() {
+//        dataRepository.getPrettyGirlList(10, 1).subscribe(
+//                new Consumer<List<PrettyGirl>>() {
 //                    @Override
-//                    public void accept(Boolean granted) throws Exception {
-//                                            if (granted) {
-//                        // All requested permissions are granted
-//                    } else {
-//                        // At least one permission is denied
+//                    public void accept(List<PrettyGirl> prettyGirls) {
+//                        Timber.tag(TAG).d(prettyGirls.get(0).who);
 //                    }
-//                    }
-//                });
-//        rxPermissions
-//                .request(Manifest.permission.CAMERA,
-//                        Manifest.permission.READ_PHONE_STATE)
-//                .subscribe(granted -> {
-//                    if (granted) {
-//                        // All requested permissions are granted
-//                    } else {
-//                        // At least one permission is denied
+//                }, new Consumer<Throwable>() {
+//                    @Override
+//                    public void accept(Throwable throwable) {
+//                        Timber.tag(TAG).e("出错了");
 //                    }
 //                });
+
+        dataRepository.getRestVideoList(10, 1).subscribe(
+                new Consumer<List<RestVideo>>() {
+                    @Override
+                    public void accept(List<RestVideo> restVideos) {
+                        Timber.tag(TAG).d(restVideos.get(0).url);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) {
+
+                    }
+                }
+        );
+
     }
 }
