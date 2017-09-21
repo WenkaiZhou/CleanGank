@@ -2,12 +2,12 @@ package com.kevin.cleangank.view;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 
+import com.kevin.cleangank.model.data.DataRepository;
 import com.kevin.cleangank.model.entity.PrettyGirl;
-import com.kevin.cleangank.model.net.HttpBuilder;
-import com.kevin.cleangank.model.net.HttpHelper;
+
+import java.util.List;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
@@ -15,32 +15,30 @@ import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int REQUEST_SETTING = 110;
+    DataRepository dataRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        dataRepository = new DataRepository(new CompositeDisposable());
     }
 
     private static final String TAG = "MainActivity";
 
     public void click(View view) {
-        HttpHelper.request(new CompositeDisposable(),
-                HttpBuilder.getRestService().getPrettyGirl(10, 1),
-                new Consumer<PrettyGirl>() {
-                    @Override
-                    public void accept(PrettyGirl prettyGirl) {
-                        Timber.tag("aa").d(prettyGirl.list.get(0).toString());
-                    }
-                },
-                new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) {
-                        Timber.tag("aa").d(throwable.toString());
-                        Log.d(TAG, "accept() called with: throwable = [" + throwable + "]");
-                    }
-                });
+        dataRepository.getPrettyGirlList(10, 1).subscribe(new Consumer<List<PrettyGirl>>() {
+            @Override
+            public void accept(List<PrettyGirl> prettyGirls) throws Exception {
+                Timber.tag("fUCKKKK").d(prettyGirls.get(0).who);
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                Timber.tag(TAG).e("出错了");
+                Timber.tag(TAG).e(throwable);
+            }
+        });
 
 //        new RxPermissions(MainActivity.this).request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 //                .subscribe(new Consumer<Boolean>() {

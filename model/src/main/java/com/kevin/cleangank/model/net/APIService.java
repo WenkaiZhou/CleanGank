@@ -36,15 +36,15 @@ import retrofit2.http.Path;
 public interface APIService {
 
     // http://gank.io/api/data/福利/10/1
-    @GET("/api/data/福利/{pagesize}/{page}")
+    @GET("/api/data/福利/{pageSize}/{page}")
     Observable<HttpResult<PrettyGirl>> getPrettyGirl(
-            @Path("pagesize") int pageSize,
+            @Path("pageSize") int pageSize,
             @Path("page") int page);
 
     // http://gank.io/api/data/休息视频/10/1
-    @GET("/api/data/休息视频/{pagesize}/{page}")
+    @GET("/api/data/休息视频/{pageSize}/{page}")
     Observable<HttpResult<RestVideo>> getRestVideo(
-            @Path("pagesize") int pageSize,
+            @Path("pageSize") int pageSize,
             @Path("page") int page);
 
 }

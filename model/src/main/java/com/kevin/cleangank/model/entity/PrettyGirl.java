@@ -18,8 +18,6 @@ package com.kevin.cleangank.model.entity;
 import com.bluelinelabs.logansquare.annotation.JsonField;
 import com.bluelinelabs.logansquare.annotation.JsonObject;
 
-import java.util.List;
-
 /**
  * PrettyGirl
  *
@@ -33,31 +31,25 @@ import java.util.List;
 @JsonObject(fieldDetectionPolicy = JsonObject.FieldDetectionPolicy.NONPRIVATE_FIELDS)
 public class PrettyGirl {
 
-    @JsonField(name = "results")
-    public List<Girl> list = null;
-
-    @JsonObject(fieldDetectionPolicy = JsonObject.FieldDetectionPolicy.NONPRIVATE_FIELDS)
-    public static class Girl {
-        /*
-         * "_id": "59c1b3e0421aa9727ddd19a8",
-         * "createdAt": "2017-09-20T08:18:40.702Z",
-         * "desc": "9-20",
-         * "publishedAt": "2017-09-20T13:17:38.709Z",
-         * "source": "chrome",
-         * "type": "福利",
-         * "url": "https://ws1.sinaimg.cn/large/610dc034ly1fjppsiclufj20u011igo5.jpg",
-         * "used": true,
-         * "who": "带马甲"
-         */
-        @JsonField(name = "_id")
-        public String id = "";
-        public String createdAt = "";
-        public String desc = "";
-        public String publishedAt = "";
-        public String source = "";
-        public String type = "";
-        public String url = "";
-        public boolean used = false;
-        public String who = "";
-    }
+    /*
+     * "_id": "59c1b3e0421aa9727ddd19a8",
+     * "createdAt": "2017-09-20T08:18:40.702Z",
+     * "desc": "9-20",
+     * "publishedAt": "2017-09-20T13:17:38.709Z",
+     * "source": "chrome",
+     * "type": "福利",
+     * "url": "https://ws1.sinaimg.cn/large/610dc034ly1fjppsiclufj20u011igo5.jpg",
+     * "used": true,
+     * "who": "带马甲"
+     */
+    @JsonField(name = "_id")
+    public String id = "";
+    public String createdAt = "";
+    public String desc = "";
+    public String publishedAt = "";
+    public String source = "";
+    public String type = "";
+    public String url = "";
+    public boolean used = false;
+    public String who = "";
 }

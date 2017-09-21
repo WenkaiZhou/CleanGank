@@ -18,8 +18,6 @@ package com.kevin.cleangank.model.entity;
 import com.bluelinelabs.logansquare.annotation.JsonField;
 import com.bluelinelabs.logansquare.annotation.JsonObject;
 
-import java.util.List;
-
 /**
  * RestVideo
  *
@@ -33,31 +31,25 @@ import java.util.List;
 @JsonObject(fieldDetectionPolicy = JsonObject.FieldDetectionPolicy.NONPRIVATE_FIELDS)
 public class RestVideo {
 
-    @JsonField(name = "results")
-    public List<Video> list = null;
-
-    @JsonObject(fieldDetectionPolicy = JsonObject.FieldDetectionPolicy.NONPRIVATE_FIELDS)
-    public static class Video {
-        /*
-         * "_id": "59be78a8421aa911847a03a8",
-         * "createdAt": "2017-09-17T21:29:12.58Z",
-         * "desc": "【爆首映】《猩球崛起3》最大的亮点不是凯撒，而是宋小宝！",
-         * "publishedAt": "2017-09-20T13:17:38.709Z",
-         * "source": "chrome",
-         * "type": "休息视频",
-         * "url": "http://www.bilibili.com/video/av14549261/",
-         * "used": true,
-         * "who": "LHF"
-         */
-        @JsonField(name = "_id")
-        public String id = "";
-        public String createdAt = "";
-        public String desc = "";
-        public String publishedAt = "";
-        public String source = "";
-        public String type = "";
-        public String url = "";
-        public boolean used = false;
-        public String who = "";
-    }
+    /*
+     * "_id": "59be78a8421aa911847a03a8",
+     * "createdAt": "2017-09-17T21:29:12.58Z",
+     * "desc": "【爆首映】《猩球崛起3》最大的亮点不是凯撒，而是宋小宝！",
+     * "publishedAt": "2017-09-20T13:17:38.709Z",
+     * "source": "chrome",
+     * "type": "休息视频",
+     * "url": "http://www.bilibili.com/video/av14549261/",
+     * "used": true,
+     * "who": "LHF"
+     */
+    @JsonField(name = "_id")
+    public String id = "";
+    public String createdAt = "";
+    public String desc = "";
+    public String publishedAt = "";
+    public String source = "";
+    public String type = "";
+    public String url = "";
+    public boolean used = false;
+    public String who = "";
 }
