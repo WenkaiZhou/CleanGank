@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data class=".app.main.MainFragmentBinding" />
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/main_fragment_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/line_divider"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/line_divider"
+            android:layout_width="0dp"
+            android:layout_height="1px"
+            android:background="@android:color/white"
+            app:layout_constraintBottom_toTopOf="@+id/tab_layout"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/main_fragment_content" />
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tab_layout"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:tabBackground="@drawable/main_fragment_tab_bg"
+            app:tabGravity="fill"
+            app:tabIndicatorHeight="0dp"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="@color/main_tab_title_select"
+            app:tabTextColor="@color/main_tab_title_unselect">
+
+            <android.support.design.widget.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:icon="@drawable/main_fragment_subtitle_home_bg"
+                android:layout="@layout/main_fragment_index_tab_layout"
+                android:text="@string/main_fragment_title_home" />
+
+            <android.support.design.widget.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:icon="@drawable/main_fragment_subtitle_discover_bg"
+                android:layout="@layout/main_fragment_index_tab_layout"
+                android:text="@string/main_fragment_title_discover" />
+
+            <android.support.design.widget.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:icon="@drawable/main_fragment_subtitle_search_bg"
+                android:layout="@layout/main_fragment_index_tab_layout"
+                android:text="@string/main_fragment_title_search" />
+
+            <android.support.design.widget.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:icon="@drawable/main_fragment_subtitle_user_bg"
+                android:layout="@layout/main_fragment_index_tab_layout"
+                android:text="@string/main_fragment_title_user" />
+        </android.support.design.widget.TabLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
+</layout>
