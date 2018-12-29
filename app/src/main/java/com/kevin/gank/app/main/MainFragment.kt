@@ -15,6 +15,16 @@
  */
 package com.kevin.gank.app.main
 
+import android.os.Bundle
+import android.support.design.widget.TabLayout
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
+import android.view.View
+import com.kevin.gank.R
+import com.kevin.gank.app.beauty.BeautyFragment
+import com.kevin.gank.app.categoty.CategoryFragment
+import com.kevin.gank.app.favorite.FavoriteFragment
+import com.kevin.gank.app.home.HomeFragment
 import com.kevin.gank.base.GankFragment
 import com.kevin.mvvm.annotation.Autowired
 
@@ -32,4 +42,67 @@ class MainFragment : GankFragment() {
     @Autowired
     private lateinit var binding: MainFragmentBinding
 
+    private var fragments: MutableList<Fragment> = ArrayList()
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initFragment()
+    }
+
+    private fun initFragment() {
+        fragments.add(HomeFragment())
+        fragments.add(CategoryFragment())
+        fragments.add(BeautyFragment())
+        fragments.add(FavoriteFragment())
+
+        val selectedListener = TabSelectedListener(childFragmentManager, fragments)
+        binding.tabLayout.addOnTabSelectedListener(selectedListener)
+        val tab = binding.tabLayout.getTabAt(0)
+        if (tab != null) {
+            selectedListener.onTabSelected(tab)
+        }
+    }
+
+    internal inner class TabSelectedListener(
+            private val fragmentManager: FragmentManager,
+            private val fragments: MutableList<Fragment>
+    ) : TabLayout.OnTabSelectedListener {
+
+        private var currentFragment: Fragment? = null
+
+        override fun onTabSelected(tab: TabLayout.Tab) {
+            if (fragments.size != 0) {
+                val position = tab.position
+                val transaction = fragmentManager.beginTransaction()
+                if (currentFragment != null) {
+                    transaction.hide(currentFragment!!)
+                    currentFragment!!.userVisibleHint = false
+                }
+
+                val tag = fragments[position].javaClass.name
+                var fragment = fragmentManager.findFragmentByTag(tag)
+                if (fragment == null) {
+                    fragment = fragments[position]
+                }
+
+                currentFragment = fragment
+                if (fragment.isAdded) {
+                    transaction.show(fragment)
+                } else {
+                    transaction.add(R.id.main_fragment_content, fragment, tag)
+                }
+
+                transaction.commitAllowingStateLoss()
+                if (fragment.view == null) {
+                    return
+                }
+
+                currentFragment!!.userVisibleHint = true
+            }
+        }
+
+        override fun onTabUnselected(tab: TabLayout.Tab) {}
+
+        override fun onTabReselected(tab: TabLayout.Tab) {}
+    }
 }

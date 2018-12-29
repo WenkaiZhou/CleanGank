@@ -5,6 +5,6 @@
     <color name="colorAccent">#D81B60</color>
 
     <color name="main_tab_bg">#FFFFFF</color>
-    <color name="main_tab_title_select">#ffff0e58</color>
-    <color name="main_tab_title_unselect">#ff878787</color>
+    <color name="main_tab_title_select">#ff0e58</color>
+    <color name="main_tab_title_unselect">#878787</color>
 </resources>
