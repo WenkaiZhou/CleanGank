@@ -15,8 +15,12 @@
  */
 package com.kevin.gank.app.home
 
+import android.os.Bundle
+import android.view.View
 import com.kevin.gank.base.GankFragment
 import com.kevin.mvvm.annotation.Autowired
+import com.kevin.delegationadapter.DelegationAdapter
+import android.support.v7.widget.LinearLayoutManager
 
 /**
  * HomeFragment
@@ -27,8 +31,48 @@ import com.kevin.mvvm.annotation.Autowired
  *         Note: If you modify this class please fill in the following content as a record.
  * @author mender，Modified Date Modify Content:
  */
-class HomeFragment: GankFragment() {
+class HomeFragment : GankFragment() {
 
     @Autowired
     private lateinit var binding: HomeFragmentBinding
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val layoutManager = LinearLayoutManager(context)
+        binding.recyclerView.layoutManager = layoutManager
+        // ② 创建 DelegationAdapter 对象
+        val delegationAdapter = DelegationAdapter()
+        // ③ 向Adapter中注册委托Adapter
+        delegationAdapter.addDelegate(CompanyAdapterDelegate())
+        // ④ 设置Adapter
+        binding.recyclerView.adapter = delegationAdapter
+
+        val companies = ArrayList<String>()
+        companies.add("🇨🇳 Baidu")
+        companies.add("🇨🇳 Alibaba")
+        companies.add("🇨🇳 Tencent")
+        companies.add("🇺🇸 Google")
+        companies.add("🇺🇸 Facebook")
+        companies.add("🇺🇸 Microsoft")
+        companies.add("🇨🇳 Baidu")
+        companies.add("🇨🇳 Alibaba")
+        companies.add("🇨🇳 Tencent")
+        companies.add("🇺🇸 Google")
+        companies.add("🇺🇸 Facebook")
+        companies.add("🇺🇸 Microsoft")
+        companies.add("🇨🇳 Baidu")
+        companies.add("🇨🇳 Alibaba")
+        companies.add("🇨🇳 Tencent")
+        companies.add("🇺🇸 Google")
+        companies.add("🇺🇸 Facebook")
+        companies.add("🇺🇸 Microsoft")
+        companies.add("🇨🇳 Baidu")
+        companies.add("🇨🇳 Alibaba")
+        companies.add("🇨🇳 Tencent")
+        companies.add("🇺🇸 Google")
+        companies.add("🇺🇸 Facebook")
+        companies.add("🇺🇸 Microsoft")
+        // ⑤ 设置数据
+        delegationAdapter.setDataItems(companies)
+    }
+
 }
